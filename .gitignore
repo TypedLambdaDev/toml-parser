@@ -1,0 +1,9 @@
+.cache
+.classpath
+.settings
+.project
+bin
+target
+*.sublime-*
+.worksheet
+*.sc
