@@ -1,4 +1,4 @@
 toml-parser
 ===========
 
-A TOML parser in Scala
+A parser for TOML in Scala 
