@@ -49,4 +49,4 @@ At this point you might want to `publish` or `publish-local` if you intend to us
 
 ## Testing
 
-1. `$sbt test`
+1. `$ sbt test`
