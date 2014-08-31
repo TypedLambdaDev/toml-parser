@@ -16,18 +16,28 @@ package object datatypes {
       case Nil => None
     }
 
-    def getAny(key: String): Option[Any] = {
+    def get(key: String): Option[Any] = {
       getForKey(key.split("[.]").toList, data)
     }
 
-    def get[A: ClassTag](key: String): Option[A] = getAny(key) match {
+    def getOrElse[A : ClassTag](key: String, default: A): A = optional[A](key).getOrElse(default)
+
+    def require[A : ClassTag](key: String): A = optional[A](key).getOrElse(throw new Exception(s"Key '$key' required but was not found."))
+
+    def optional[A: ClassTag](key: String): Option[A] = get(key) match {
       case Some(value: A) => Some(value)
       case _              => None
     }
 
-    def require[A : ClassTag](key: String): A = get[A](key).getOrElse(throw new Exception(s"Key '$key' required but was not found."))
+    // Shorthand
 
-    def getOrElse[A : ClassTag](key: String, default: A): A = get[A](key).getOrElse(default)
+    def req[A: ClassTag](key: String) = require(key)
+    def opt[A: ClassTag](key: String) = optional(key)
+
+    def seq[A: ClassTag](key: String) = optional[Seq[A]](key) match {
+      case Some(list) => list
+      case None       => Seq.empty
+    }
 
   }
 

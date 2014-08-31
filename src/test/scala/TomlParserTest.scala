@@ -23,62 +23,85 @@ class TomlParserTest extends Specification {
 
       """)
 
-  "TomlParser" should {
+  "#get" should {
 
     "return name" in {
-      data.getAny("name") must beSome("Rajesh")
+      data.get("name") must beSome("Rajesh")
     }
-    
+
     "return bio" in {
-      data.getAny("bio") must beSome("GitHub Cofounder & CEO\nLikes tater tots and beer.")
+      data.get("bio") must beSome("GitHub Cofounder & CEO\nLikes tater tots and beer.")
     }
-    
+
     "return age" in {
-       data.getAny("age") must beSome(32)
+      data.get("age") must beSome(32)
     }
-    
+
     "return height" in {
-      data.getAny("height") must beSome(5.9)
+      data.get("height") must beSome(5.9)
     }
-    
+
     "return list of data" in {
-      data.getAny("data") must beSome(List(List("gamma","delta"),List(1,2)))
+      data.get("data") must beSome(List(List("gamma", "delta"), List(1, 2)))
     }
 
     "return ip for alpha server" in {
-      data.getAny("servers.alpha.ip") must beSome ("10.0.0.1")
+      data.get("servers.alpha.ip") must beSome("10.0.0.1")
     }
 
     "return ip for beta server" in {
-      data.getAny("servers.beta.ip") must beSome ("10.0.0.2")
+      data.get("servers.beta.ip") must beSome("10.0.0.2")
     }
+  }
+
+  "#opt" should {
 
     "return strings typed as String" in {
-      data.get[String]("name") must beSome("Rajesh")
+      data.opt[String]("name") must beSome("Rajesh")
     }
 
     "return true/false as Boolean" in {
-      data.get[Boolean]("developer") must beSome(true)
+      data.opt[Boolean]("developer") must beSome(true)
     }
 
     "return whole numbers as Int" in {
-      data.get[Int]("age") must beSome(32)
+      data.opt[Int]("age") must beSome(32)
     }
 
     "return rational numbers as Double" in {
-      data.get[Double]("height") must beSome(5.9)
+      data.opt[Double]("height") must beSome(5.9)
     }
 
     "return lists as typed List" in {
-      data.get[List[String]]("admins") must beSome(List("Bob", "John"))
+      data.opt[List[String]]("admins") must beSome(List("Bob", "John"))
     }
+
+  }
+
+  "#getOrElse" should {
 
     "return the default when the value is not present" in {
       data.getOrElse("doesntexist", 42) mustEqual 42
     }
-    
+
+  }
+
+  "#require" should {
+
     "throw an exception when a key is required but not found" in {
-      data.require[String]("doesntexist") must throwAn[Exception]
+      data.req[String]("doesntexist") must throwAn[Exception]
+    }
+
+  }
+
+  "#seq" should {
+
+    "return a list" in {
+      data.seq[String]("admins") mustEqual List("Bob", "John")
+    }
+
+    "return an empty list if not found" in {
+      data.seq[String]("doesntexist") mustEqual List.empty
     }
 
  }
