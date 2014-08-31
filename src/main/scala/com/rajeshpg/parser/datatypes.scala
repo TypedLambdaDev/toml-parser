@@ -7,7 +7,7 @@ package object datatypes {
 
   case class TomlData(data: Map[String, Any]) {
 
-    def getForKey(k: List[String], d: Map[String, Any]): Option[Any] = k match {
+    private def getForKey(k: List[String], d: Map[String, Any]): Option[Any] = k match {
       case k :: ks => d.get(k) match {
         case Some(TomlData(d)) => getForKey(ks, d)
         case Some(m: Map[String, Any]) => getForKey(ks, m)
@@ -34,10 +34,7 @@ package object datatypes {
     def req[A: ClassTag](key: String) = require(key)
     def opt[A: ClassTag](key: String) = optional(key)
 
-    def seq[A: ClassTag](key: String) = optional[Seq[A]](key) match {
-      case Some(list) => list
-      case None       => Seq.empty
-    }
+    def seq[A: ClassTag](key: String) = optional[Seq[A]](key).getOrElse(Seq.empty)
 
   }
 

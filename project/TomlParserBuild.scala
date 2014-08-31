@@ -15,7 +15,6 @@ object TomlParserBuild extends Build {
       version := "0.1",
       scalaVersion := "2.11.2",
       libraryDependencies ++= Seq(specs2, parserCombinators)
-      // add other settings here
     )
   )
 }
