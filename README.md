@@ -34,7 +34,7 @@ Get value as given type `A`.  Value will throw an exception if key is not presen
 ### seq (shorthand)
 
 ```
-def seq[A: ClassTag](key: String)
+def seq[A: ClassTag](key: String): Seq[A]
 ```
 
 Shorthand for `optional[Seq[A]](key).getOrElse(Seq.empty)`.
