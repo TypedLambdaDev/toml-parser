@@ -3,7 +3,8 @@ import sbt.Keys._
 
 object TomlParserBuild extends Build {
 
-  val specs2 = "org.specs2" %% "specs2" % "2.2.2" % "test"
+  val specs2 = "org.specs2" %% "specs2" % "2.3.11" % "test"
+  val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
 
   lazy val tomlParser = Project(
     id = "toml-parser",
@@ -12,8 +13,8 @@ object TomlParserBuild extends Build {
       name := "toml-parser",
       organization := "com.rajeshpg",
       version := "0.1",
-      scalaVersion := "2.10.2",
-      libraryDependencies ++= Seq(specs2)
+      scalaVersion := "2.11.2",
+      libraryDependencies ++= Seq(specs2, parserCombinators)
       // add other settings here
     )
   )

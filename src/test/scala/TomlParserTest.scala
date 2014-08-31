@@ -38,8 +38,7 @@ class TomlParserTest extends Specification {
     }
     
     "return list of data" in {
-      println(data.get("data"))
-      data.get("data") must beSome(List(List("gamma","delta"),List(1,2))) 
+      data.get("data") must beSome(List(List("gamma","delta"),List(1,2)))
     }
 
     "return ip for alpha server" in {
