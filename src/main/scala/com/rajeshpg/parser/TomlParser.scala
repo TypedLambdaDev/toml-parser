@@ -9,7 +9,7 @@ class TomlParser extends JavaTokenParsers {
 
   override protected val whiteSpace = """(\s|#.*)+""".r
 
-  val int = """-?\d+""".r ^^ (i => i.toLong)
+  val int = """-?\d+""".r ^^ (i => i.toInt)
 
   val float = """-?\d*[.]\d*""".r ^^ (f => f.toDouble)
 
