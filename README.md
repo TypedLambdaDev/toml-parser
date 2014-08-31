@@ -43,7 +43,9 @@ Shorthand for `optional[Seq[A]](key).getOrElse(Seq.empty)`.
 ## Building
 
 1. Clone github repository
-2. `$ sbt publish-local`
+2. `$ sbt compile`
+
+At this point you might want to `publish` or `publish-local` if you intend to use it.
 
 ## Testing
 
