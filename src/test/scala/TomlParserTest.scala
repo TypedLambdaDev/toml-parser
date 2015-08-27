@@ -5,8 +5,8 @@ import org.specs2.mutable.Specification
 class TomlParserTest extends Specification {
   val parser = new TomlParser
     val data = parser.parse("""
-     name = "Rajesh" 
-     bio = "GitHub Cofounder & CEO\nLikes tater tots and beer."
+     name = "Rajesh Pitty"
+     bio = "scala programmer"
      age=32
      height= 5.9
      developer = true
@@ -26,11 +26,11 @@ class TomlParserTest extends Specification {
   "#get" should {
 
     "return name" in {
-      data.get("name") must beSome("Rajesh")
+      data.get("name") must beSome("Rajesh Pitty")
     }
 
     "return bio" in {
-      data.get("bio") must beSome("GitHub Cofounder & CEO\nLikes tater tots and beer.")
+      data.get("bio") must beSome("scala programmer")
     }
 
     "return age" in {
@@ -42,7 +42,7 @@ class TomlParserTest extends Specification {
     }
 
     "return list of data" in {
-      data.get("data") must beSome(List(List("gamma", "delta"), List(1, 2)))
+      data.get("data") must beSome(List(List("gamma", "delta"),List(1,2)))
     }
 
     "return ip for alpha server" in {
@@ -57,7 +57,7 @@ class TomlParserTest extends Specification {
   "#opt" should {
 
     "return strings typed as String" in {
-      data.opt[String]("name") must beSome("Rajesh")
+      data.opt[String]("name") must beSome("Rajesh Pitty")
     }
 
     "return true/false as Boolean" in {

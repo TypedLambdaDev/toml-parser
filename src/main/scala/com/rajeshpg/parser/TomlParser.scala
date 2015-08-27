@@ -21,13 +21,13 @@ class TomlParser extends JavaTokenParsers {
 
   val date = """\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z""".r ^^ (d => DatatypeConverter.parseDateTime(d).getTime())
 
-  val array = "[" ~> repsep(primitives, ",") <~ ",".? ~ "]" ^^ (arr => arr.toList)
-
   val primitives: Parser[Any] = number | boolean | string | array | date
+
+  val array = "[" ~> repsep(primitives, ",") <~ ",".? ~ "]" ^^ (arr => arr.toList)
 
   val key = """[\p{L}][_\p{L}\p{Nd}]*""".r ^^ (k => k.toString)
 
-  val keyGroup = "[" ~> rep1sep(key, ".") <~ "]" ^^ (kg => kg.toList)
+  val keyGroup = "[" ~> repsep(key, ".") <~ "]" ^^ (kg => kg.toList)
 
   val expression = (key <~ "=") ~ primitives ^^ { case k ~ v => Expression(k, v) }
 
@@ -54,8 +54,7 @@ class TomlParser extends JavaTokenParsers {
     case Nil => tomlData
     case key :: tail => tomlData.data.get(key).getOrElse(TomlData.empty) match {
       case td: TomlData => TomlData(tomlData.data.updated(key, if (tail.isEmpty && !value.isEmpty) value.map(exp => (exp.key, exp.value)).toMap else updateData(td, tail, value)))
-      case m => throw new Exception("dup key " + key)
-
+      case m => throw new Exception(s"key $key already exists")
     }
   }
 
