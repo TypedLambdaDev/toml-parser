@@ -1,9 +1,8 @@
 package com.rajeshpg.parser
 
-import scala.reflect.ClassTag
-
 
 package object datatypes {
+  import scala.reflect.ClassTag
 
   case class TomlData(data: Map[String, Any]) {
 
