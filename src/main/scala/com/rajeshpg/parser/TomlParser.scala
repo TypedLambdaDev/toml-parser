@@ -18,12 +18,23 @@ class TomlParser  extends TomlGrammar {
     case ExpressionGroup(keyList, expressions) => updateData(tomlData, keyList, expressions)
   }
 
-  private def updateData(tomlData: TomlData, keyList: List[String], value: List[Expression]): TomlData = keyList match {
-    case Nil => tomlData
-    case key :: tail => tomlData.data.getOrElse(key,TomlData.empty) match {
-      case td: TomlData => TomlData(tomlData.data.updated(key, if (tail.isEmpty && value.nonEmpty) value.map(exp => (exp.key, exp.value)).toMap else updateData(td, tail, value)))
-      case m => throw new Exception(s"key $key already exists")
+  private def updateData(tomlData: TomlData, keyList: List[String], value: List[Expression]): TomlData = {
+    keyList match {
+      case Nil => tomlData
+      case key :: tail => tomlData.data.getOrElse(key, TomlData.empty) match {
+        case td: TomlData => build(key, tomlData, value, tail, td)
+        case m => throw new Exception(s"key $key already exists")
+      }
     }
+  }
+
+  def build(key: String, tomlData: TomlData, value: List[Expression], tail: List[String], td: TomlData): TomlData = {
+    val tomlValue = if (tail.isEmpty && value.nonEmpty)
+      value.map(exp => (exp.key, exp.value)).toMap
+    else
+      updateData(td, tail, value)
+
+    TomlData(tomlData.data.updated(key, tomlValue))
   }
 
 }
